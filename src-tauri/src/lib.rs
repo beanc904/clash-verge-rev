@@ -9,6 +9,7 @@ mod enhance;
 mod feat;
 mod module;
 mod process;
+mod single_instance;
 pub mod utils;
 use crate::constants::files;
 use crate::{
@@ -31,6 +32,7 @@ mod app_init {
     use super::*;
 
     /// Initialize singleton monitoring for other instances
+    #[allow(dead_code)]
     pub fn init_singleton_check() -> Result<()> {
         AsyncHandler::block_on(async move {
             logging!(info, Type::Setup, "开始检查单例实例...");
@@ -54,6 +56,9 @@ mod app_init {
             .plugin(tauri_plugin_shell::init())
             .plugin(tauri_plugin_deep_link::init())
             .plugin(tauri_plugin_http::init())
+            .plugin(tauri_plugin_single_instance::init(
+                single_instance::setup_single_instance,
+            ))
             .plugin(
                 tauri_plugin_mihomo::Builder::new()
                     .protocol(tauri_plugin_mihomo::models::Protocol::LocalSocket)
@@ -221,9 +226,10 @@ mod app_init {
 }
 
 pub fn run() {
-    if app_init::init_singleton_check().is_err() {
-        return;
-    }
+    // Use `tauri_plugin_single_instance` to process the single instance.
+    // if app_init::init_singleton_check().is_err() {
+    //     return;
+    // }
 
     #[cfg(target_os = "linux")]
     utils::linux::workarounds::apply_nvidia_dmabuf_renderer_workaround();
