@@ -1,4 +1,33 @@
-## v2.5.2
+## v2.5.2-se
+
+### special-edition 分支
+
+- ✨ 引入单实例机制（基于 `tauri-plugin-single-instance`）
+  - 确保应用始终以单实例运行
+  - 后续启动时自动将命令行参数传递给已有实例
+
+- 🔁 支持多实例调用参数转发
+  - 允许通过重复执行命令触发已有实例行为
+  - 为外部脚本/快捷键调用提供基础能力
+
+- ⌨️ Wayland 全局快捷键变通方案
+  - 通过 GNOME Settings 配置系统级快捷键
+  - 触发命令行，从而间接实现“全局热键”效果
+
+- 🧪 分支说明
+  - 本分支为个人定制（`special-edition`）
+  - 不计划提交上游 PR，仅用于自用功能扩展
+
+<details>
+<summary><strong> 增加单例参数 </strong></summary>
+
+- `--dashboard-toggle`: 切换窗口显示状态
+- `--toggle-proxy`: 切换系统代理状态
+- `--toggle-tun-mode`: 切换TUN代理状态
+
+更多参数信息详见[single_instance.rs](src-tauri/src/single_instance.rs)
+
+</details>
 
 ### 🐞 修复问题
 
